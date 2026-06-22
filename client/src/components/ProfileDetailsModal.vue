@@ -2,62 +2,60 @@
   <Teleport to="body">
     <Transition name="modal">
       <div v-if="isOpen" class="modal-overlay" @click="close">
-        <div class="modal-container" @click.stop>
+        <div class="modal-panel" @click.stop>
           <div class="modal-header">
             <h3 class="modal-title">{{ t('profileDetails.title') }}</h3>
-            <button class="close-button" @click="close">
+            <button class="modal-close" @click="close">
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                 <path d="M15 5L5 15M5 5L15 15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
               </svg>
             </button>
           </div>
 
-          <div class="modal-body">
-            <div class="profile-section">
-              <div class="avatar-section">
-                <div class="avatar-xl">
-                  {{ getInitials(currentUser.name) }}
-                </div>
-                <h4 class="profile-name">{{ currentUser.name }}</h4>
-                <p class="profile-job-title">{{ currentUser.jobTitle }}</p>
+          <div class="profile-section">
+            <div class="avatar-section">
+              <div class="avatar-xl">
+                {{ getInitials(currentUser.name) }}
+              </div>
+              <h4 class="profile-name">{{ currentUser.name }}</h4>
+              <p class="profile-job-title">{{ currentUser.jobTitle }}</p>
+            </div>
+
+            <div class="info-grid">
+              <div class="info-item">
+                <div class="info-label">{{ t('profileDetails.email') }}</div>
+                <div class="info-value">{{ currentUser.email }}</div>
               </div>
 
-              <div class="info-grid">
-                <div class="info-item">
-                  <div class="info-label">{{ t('profileDetails.email') }}</div>
-                  <div class="info-value">{{ currentUser.email }}</div>
-                </div>
+              <div class="info-item">
+                <div class="info-label">{{ t('profileDetails.department') }}</div>
+                <div class="info-value">{{ currentUser.department }}</div>
+              </div>
 
-                <div class="info-item">
-                  <div class="info-label">{{ t('profileDetails.department') }}</div>
-                  <div class="info-value">{{ currentUser.department }}</div>
-                </div>
+              <div class="info-item">
+                <div class="info-label">{{ t('profileDetails.location') }}</div>
+                <div class="info-value">{{ currentUser.location }}</div>
+              </div>
 
-                <div class="info-item">
-                  <div class="info-label">{{ t('profileDetails.location') }}</div>
-                  <div class="info-value">{{ currentUser.location }}</div>
-                </div>
+              <div class="info-item">
+                <div class="info-label">{{ t('profileDetails.phone') }}</div>
+                <div class="info-value">{{ currentUser.phone }}</div>
+              </div>
 
-                <div class="info-item">
-                  <div class="info-label">{{ t('profileDetails.phone') }}</div>
-                  <div class="info-value">{{ currentUser.phone }}</div>
-                </div>
+              <div class="info-item">
+                <div class="info-label">{{ t('profileDetails.joinDate') }}</div>
+                <div class="info-value">{{ formatDate(currentUser.joinDate) }}</div>
+              </div>
 
-                <div class="info-item">
-                  <div class="info-label">{{ t('profileDetails.joinDate') }}</div>
-                  <div class="info-value">{{ formatDate(currentUser.joinDate) }}</div>
-                </div>
-
-                <div class="info-item">
-                  <div class="info-label">{{ t('profileDetails.employeeId') }}</div>
-                  <div class="info-value">CC-{{ currentUser.id.toString().padStart(5, '0') }}</div>
-                </div>
+              <div class="info-item">
+                <div class="info-label">{{ t('profileDetails.employeeId') }}</div>
+                <div class="info-value">CC-{{ currentUser.id.toString().padStart(5, '0') }}</div>
               </div>
             </div>
           </div>
 
-          <div class="modal-footer">
-            <button class="btn-secondary" @click="close">{{ t('profileDetails.close') }}</button>
+          <div class="modal-footer-row">
+            <button class="btn btn-secondary btn-sm" @click="close">{{ t('profileDetails.close') }}</button>
           </div>
         </div>
       </div>
@@ -97,164 +95,81 @@ const formatDate = (dateString) => {
 </script>
 
 <style scoped>
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 2000;
-  padding: 1rem;
-}
-
-.modal-container {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
-  max-width: 600px;
-  width: 100%;
-  max-height: 90vh;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
-
-.modal-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1.5rem;
-  border-bottom: 1px solid #e2e8f0;
-}
-
-.modal-title {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: #0f172a;
-  letter-spacing: -0.025em;
-}
-
-.close-button {
-  background: none;
-  border: none;
-  color: #64748b;
-  cursor: pointer;
-  padding: 0.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 6px;
-  transition: all 0.15s ease;
-}
-
-.close-button:hover {
-  background: #f1f5f9;
-  color: #0f172a;
-}
-
-.modal-body {
-  flex: 1;
-  overflow-y: auto;
-  padding: 2rem;
-}
-
 .profile-section {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: var(--space-8);
 }
 
 .avatar-section {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.75rem;
-  padding-bottom: 1.5rem;
-  border-bottom: 1px solid #e2e8f0;
+  gap: var(--space-3);
+  padding-bottom: var(--space-6);
+  border-bottom: var(--border-width) solid var(--color-border);
 }
 
 .avatar-xl {
   width: 96px;
   height: 96px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
-  color: white;
+  border-radius: var(--radius-full);
+  background: var(--color-accent);
+  color: var(--color-surface);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 700;
-  font-size: 2rem;
-  letter-spacing: 0.025em;
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-xl);
+  letter-spacing: var(--tracking-wide);
 }
 
 .profile-name {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #0f172a;
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text);
   margin: 0;
 }
 
 .profile-job-title {
-  font-size: 1rem;
-  color: #64748b;
+  font-size: var(--text-md);
+  color: var(--color-text-muted);
   margin: 0;
 }
 
 .info-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
+  gap: var(--space-6);
 }
 
 .info-item {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: var(--space-2);
 }
 
 .info-label {
-  font-size: 0.813rem;
-  font-weight: 600;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: #64748b;
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-text-muted);
 }
 
 .info-value {
-  font-size: 0.938rem;
-  color: #0f172a;
-  font-weight: 500;
+  font-size: var(--text-base);
+  color: var(--color-text);
+  font-weight: var(--weight-medium);
 }
 
-.modal-footer {
-  padding: 1.5rem;
-  border-top: 1px solid #e2e8f0;
+/* Footer */
+.modal-footer-row {
+  border-top: var(--border-width) solid var(--color-border);
+  padding-top: var(--space-4);
+  margin-top: var(--space-6);
   display: flex;
   justify-content: flex-end;
-  gap: 0.75rem;
-}
-
-.btn-secondary {
-  padding: 0.625rem 1.25rem;
-  background: #f1f5f9;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  font-weight: 500;
-  font-size: 0.875rem;
-  color: #334155;
-  cursor: pointer;
-  transition: all 0.15s ease;
-  font-family: inherit;
-}
-
-.btn-secondary:hover {
-  background: #e2e8f0;
-  border-color: #cbd5e1;
 }
 
 /* Modal transition animations */
@@ -268,13 +183,13 @@ const formatDate = (dateString) => {
   opacity: 0;
 }
 
-.modal-enter-active .modal-container,
-.modal-leave-active .modal-container {
+.modal-enter-active .modal-panel,
+.modal-leave-active .modal-panel {
   transition: transform 0.2s ease;
 }
 
-.modal-enter-from .modal-container,
-.modal-leave-to .modal-container {
+.modal-enter-from .modal-panel,
+.modal-leave-to .modal-panel {
   transform: scale(0.95);
 }
 </style>
